@@ -100,7 +100,7 @@ function setupSmoothScroll() {
     });
 }
 
-// Scroll Effects Setup
+// Scroll Effects Setup - Optimized for faster loading
 function setupScrollEffects() {
     const observerOptions = {
         root: null,
@@ -111,70 +111,42 @@ function setupScrollEffects() {
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('active');
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target); // Stop observing once animated
             }
         });
     }, observerOptions);
     
-    // Observe elements with reveal class
-    const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach(element => {
+    // Only observe service cards for animation, other content loads immediately
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(element => {
+        element.classList.add('reveal');
         observer.observe(element);
     });
 }
 
-// Animations Setup
+// Animations Setup - Simplified for faster loading
 function setupAnimations() {
-    // Add reveal class to elements that should animate on scroll
-    const elementsToReveal = [
-        '.service-card',
-        '.about-content',
-        '.contact-item',
-        '.hero-content',
-        '.hero-image'
-    ];
-    
-    elementsToReveal.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach((element, index) => {
-            element.classList.add('reveal');
-            element.style.transitionDelay = `${index * 0.1}s`;
-        });
-    });
-    
-    // Animate service cards on hover
+    // Only animate service cards, other content visible immediately
     const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
+    serviceCards.forEach((card, index) => {
+        // Add staggered animation delay only for service cards
+        card.style.transitionDelay = `${index * 0.05}s`;
     });
 }
 
-// Service Cards Setup
+// Service Cards Setup - Simplified
 function setupServiceCards() {
     const serviceCards = document.querySelectorAll('.service-card');
     
     serviceCards.forEach((card, index) => {
-        // Add staggered animation delay
-        card.style.animationDelay = `${index * 0.1}s`;
-        
-        // Add hover effect with ripple
-        card.addEventListener('click', function(e) {
-            createRipple(e, this);
-        });
-        
-        // Add floating animation
+        // Add hover effects without complex animations
         card.addEventListener('mouseenter', function() {
-            this.style.animation = 'pulse 2s infinite';
+            this.style.transform = 'translateY(-10px)';
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.animation = '';
+            this.style.transform = 'translateY(0)';
         });
     });
 }
@@ -508,13 +480,11 @@ function setupParallax() {
     }
 }
 
-// Initialize Additional Features
+// Initialize Additional Features - Reduced for faster loading
 document.addEventListener('DOMContentLoaded', function() {
+    // Only essential features for fast loading
     addRippleStyles();
-    setupLazyLoading();
     optimizePerformance();
-    animateCounters();
-    setupParallax();
 });
 
 // Handle Page Visibility Changes
