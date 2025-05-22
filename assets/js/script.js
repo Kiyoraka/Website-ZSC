@@ -430,8 +430,7 @@ function optimizePerformance() {
     
     // Preload critical images
     const criticalImages = [
-        'assets/img/logo.png',
-        'assets/img/favicon.ico'
+        'assets/img/logo.png'
     ];
     
     criticalImages.forEach(src => {
@@ -568,15 +567,5 @@ window.addEventListener('error', function(e) {
     // You can send error reports to your analytics service here
 });
 
-// Service Worker Registration (if available)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
+// Optional: Service Worker can be added later if needed
+// Uncomment and create sw.js file if you want offline functionality
