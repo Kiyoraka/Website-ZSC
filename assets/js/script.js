@@ -198,7 +198,7 @@ function setupContactForm() {
     }
 }
 
-// Handle Form Submission
+// Handle Form Submission - WhatsApp Integration
 function handleFormSubmission(form) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
@@ -211,17 +211,70 @@ function handleFormSubmission(form) {
     
     // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
     
-    // Simulate form submission (replace with actual API call)
+    // WhatsApp phone number (Zulkifli Bin Khalid's mobile)
+    // Convert 016-414 9971 to international format: +60164149971
+    const whatsappNumber = '60164149971';
+    
+    // Format message for WhatsApp
+    const message = formatWhatsAppMessage(data);
+    
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Small delay for better UX, then redirect
     setTimeout(() => {
-        showNotification('Thank you for your message! We will contact you soon.', 'success');
+        window.open(whatsappURL, '_blank');
+        showNotification('Redirecting to WhatsApp...', 'success');
         form.reset();
-        submitBtn.textContent = originalText;
+        submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-    }, 2000);
+    }, 1000);
+}
+
+// Format message for WhatsApp
+function formatWhatsAppMessage(data) {
+    const serviceName = getServiceName(data.service);
+    
+    let message = `🏗️ *New Inquiry - Zuma Survey Consultant*\n\n`;
+    message += `📋 *Client Information:*\n`;
+    message += `👤 Name: ${data.name}\n`;
+    message += `📧 Email: ${data.email}\n`;
+    
+    if (data.phone) {
+        message += `📱 Phone: ${data.phone}\n`;
+    }
+    
+    message += `\n🔧 *Service Required:*\n`;
+    message += `${serviceName}\n\n`;
+    
+    message += `📝 *Project Details:*\n`;
+    message += `${data.message}\n\n`;
+    
+    message += `---\n`;
+    message += `*Sent via Zuma Survey Consultant Website*`;
+    
+    return message;
+}
+
+// Get full service name from value
+function getServiceName(serviceValue) {
+    const serviceMap = {
+        'cadastral': '📍 Cadastral Survey',
+        'engineering': '🏗️ Engineering Survey',
+        'topography': '🗺️ Topography',
+        'hydrography': '🌊 Hydrography',
+        'subsurface': '🔍 Subsurface Mapping',
+        'remote-sensing': '🛰️ Remote Sensing',
+        'mining': '⛏️ Mining Survey',
+        'satellite': '📡 Satellite Positioning',
+        'gis': '🌐 Geographic Information System (GIS)'
+    };
+    
+    return serviceMap[serviceValue] || '🔧 General Survey Service';
 }
 
 // Form Validation
