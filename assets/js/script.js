@@ -215,7 +215,7 @@ function handleFormSubmission(form) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
     
-    // WhatsApp phone number (Zulkifli Bin Khalid's mobile)
+    // WhatsApp phone number (updated for Imtiyaz Civil Design)
     // Convert 016-414 9971 to international format: +60164149971
     const whatsappNumber = '60164149971';
     
@@ -239,7 +239,7 @@ function handleFormSubmission(form) {
 function formatWhatsAppMessage(data) {
     const serviceName = getServiceName(data.service);
     
-    let message = `🏗️ *New Inquiry - Zuma Survey Consultant*\n\n`;
+    let message = `🏗️ *New Inquiry - Imtiyaz Civil Design*\n\n`;
     message += `📋 *Client Information:*\n`;
     message += `👤 Name: ${data.name}\n`;
     message += `📧 Email: ${data.email}\n`;
@@ -255,23 +255,23 @@ function formatWhatsAppMessage(data) {
     message += `${data.message}\n\n`;
     
     message += `---\n`;
-    message += `*Sent via Zuma Survey Consultant Website*`;
+    message += `*Sent via Imtiyaz Civil Design Website*`;
     
     return message;
 }
 
-// Get full service name from value
+// Get full service name from value - Updated for Imtiyaz services
 function getServiceName(serviceValue) {
     const serviceMap = {
         'cadastral': '📍 Cadastral Survey',
-        'engineering': '🏗️ Engineering Survey',
-        'topography': '🗺️ Topography',
-        'hydrography': '🌊 Hydrography',
-        'subsurface': '🔍 Subsurface Mapping',
-        'remote-sensing': '🛰️ Remote Sensing',
-        'mining': '⛏️ Mining Survey',
-        'satellite': '📡 Satellite Positioning',
-        'gis': '🌐 Geographic Information System (GIS)'
+        'land-development': '🏗️ Land Development',
+        'construction': '🔨 Construction-Related Survey',
+        'engineering': '⚙️ Engineering Survey',
+        'hydrographic': '🌊 Hydrographic Survey',
+        'gps': '📡 Global Positioning System',
+        '3d-mapping': '🗺️ 3D Land Matter Mapping',
+        'bim': '🏢 BIM Consultant',
+        'administration': '📋 Administration Consultation'
     };
     
     return serviceMap[serviceValue] || '🔧 General Survey Service';
@@ -471,7 +471,7 @@ function addRippleStyles() {
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(92, 71, 199, 0.3);
+            background: rgba(44, 85, 48, 0.3);
             transform: scale(0);
             animation: ripple-animation 0.6s linear;
             pointer-events: none;
